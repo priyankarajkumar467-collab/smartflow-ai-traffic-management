@@ -1,0 +1,36 @@
+{
+    "project": "AI-Based Adaptive Traffic Signal Management",
+    "case_study": "Oppanakara Street, Coimbatore",
+    "feedback_type": "3-user qualitative validation",
+    "users": [
+        {
+            "user_id": 1,
+            "name_or_id": "u1",
+            "usefulness_rating": 5,
+            "understanding_rating": 4,
+            "confidence_rating": 4,
+            "suggestion": "add live traffic monitoring"
+        },
+        {
+            "user_id": 2,
+            "name_or_id": "u2",
+            "usefulness_rating": 5,
+            "understanding_rating": 4,
+            "confidence_rating": 4,
+            "suggestion": " Add live traffic monitoring"
+        },
+        {
+            "user_id": 3,
+            "name_or_id": "u3",
+            "usefulness_rating": 5,
+            "understanding_rating": 4,
+            "confidence_rating": 4,
+            "suggestion": " Add live traffic monitoring"
+        }
+    ],
+    "summary": {
+        "average_usefulness": 5.0,
+        "average_understanding": 4.0,
+        "average_confidence": 4.0
+    }
+}

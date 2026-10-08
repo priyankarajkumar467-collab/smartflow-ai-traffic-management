@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SmartFlow | AI Traffic Management</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="header">
+
+        <div>
+            <h1>SmartFlow</h1>
+            <p>AI-Based Adaptive Traffic Signal Management</p>
+        </div>
+
+        <div class="status">
+            <span class="dot"></span>
+            AI SYSTEM ACTIVE
+        </div>
+
+    </header>
+
+
+    <main class="container">
+
+        <!-- CASE STUDY -->
+
+        <section class="case-study">
+
+            <div>
+                <span class="label">CASE STUDY</span>
+
+                <h2 id="caseStudy">
+                    Oppanakara Street, Coimbatore
+                </h2>
+
+                <p>
+                    Real traffic video analyzed using YOLOv8
+                    and ByteTrack.
+                </p>
+            </div>
+
+            <div class="pipeline">
+
+                <span>YOLOv8</span>
+                <span>→</span>
+                <span>ByteTrack</span>
+                <span>→</span>
+                <span>Traffic Analysis</span>
+                <span>→</span>
+                <span>Adaptive Signal</span>
+
+            </div>
+
+        </section>
+
+
+        <!-- KPI CARDS -->
+
+        <section class="metrics">
+
+            <div class="card">
+
+                <p>VEHICLES DETECTED</p>
+
+                <h2 id="vehicles">
+                    --
+                </h2>
+
+                <span>Unique vehicles</span>
+
+            </div>
+
+
+            <div class="card">
+
+                <p>QUEUE LENGTH</p>
+
+                <h2 id="queue">
+                    --
+                </h2>
+
+                <span>Estimated queued vehicles</span>
+
+            </div>
+
+
+            <div class="card">
+
+                <p>TRAFFIC DENSITY</p>
+
+                <h2 id="density">
+                    --
+                </h2>
+
+                <span>Current traffic level</span>
+
+            </div>
+
+
+            <div class="card">
+
+                <p>RECOMMENDED GREEN</p>
+
+                <h2 id="green">
+                    --
+                </h2>
+
+                <span>Adaptive signal timing</span>
+
+            </div>
+
+        </section>
+
+
+        <!-- SIGNAL DECISION -->
+
+        <section class="signal-section">
+
+            <div class="section-title">
+                <h2>Adaptive Signal Decision</h2>
+                <span>AI RECOMMENDATION</span>
+            </div>
+
+
+            <div class="signal-card">
+
+                <div class="signal-icon">
+                    🚦
+                </div>
+
+                <div>
+
+                    <p class="label">
+                        SIGNAL ACTION
+                    </p>
+
+                    <h2 id="signalDecision">
+                        --
+                    </h2>
+
+                    <p id="signalReason">
+                        Waiting for analysis...
+                    </p>
+
+                </div>
+
+
+                <div class="green-time">
+
+                    <span>GREEN TIME</span>
+
+                    <strong id="greenLarge">
+                        -- sec
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- VALIDATION -->
+
+        <section class="validation-section">
+
+            <div class="section-title">
+
+                <h2>Performance Validation</h2>
+
+                <span>
+                    PROTOTYPE VALIDATION
+                </span>
+
+            </div>
+
+
+            <div class="validation-grid">
+
+                <div class="validation-card">
+
+                    <p>ESTIMATED THROUGHPUT</p>
+
+                    <h2 id="throughput">
+                        --
+                    </h2>
+
+                    <span>vehicles</span>
+
+                </div>
+
+
+                <div class="validation-card">
+
+                    <p>QUEUE REDUCTION</p>
+
+                    <h2 id="queueReduction">
+                        --
+                    </h2>
+
+                    <span>estimated</span>
+
+                </div>
+
+
+                <div class="validation-card">
+
+                    <p>GREEN TIME IMPROVEMENT</p>
+
+                    <h2 id="greenImprovement">
+                        --
+                    </h2>
+
+                    <span>vs fixed signal</span>
+
+                </div>
+
+
+                <div class="validation-card">
+
+                    <p>FIXED GREEN</p>
+
+                    <h2 id="fixedGreen">
+                        --
+                    </h2>
+
+                    <span>seconds</span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- USER FEEDBACK -->
+
+        <section class="feedback-section">
+
+            <div class="section-title">
+
+                <h2>3-User Qualitative Validation</h2>
+
+                <span>
+                    USER FEEDBACK
+                </span>
+
+            </div>
+
+
+            <div class="feedback-grid">
+
+                <div class="feedback-card">
+
+                    <p>USEFULNESS</p>
+
+                    <h2 id="usefulness">
+                        --
+                    </h2>
+
+                    <span>out of 5</span>
+
+                </div>
+
+
+                <div class="feedback-card">
+
+                    <p>UNDERSTANDING</p>
+
+                    <h2 id="understanding">
+                        --
+                    </h2>
+
+                    <span>out of 5</span>
+
+                </div>
+
+
+                <div class="feedback-card">
+
+                    <p>CONFIDENCE</p>
+
+                    <h2 id="confidence">
+                        --
+                    </h2>
+
+                    <span>out of 5</span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+
+        <footer>
+
+            <p>
+                SmartFlow • AI-Based Adaptive Traffic Signal Management
+            </p>
+
+            <p>
+                YOLOv8 • ByteTrack • Adaptive Signal Control
+            </p>
+
+        </footer>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

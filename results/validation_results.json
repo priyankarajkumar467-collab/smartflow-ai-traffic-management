@@ -1,0 +1,22 @@
+{
+    "case_study": "Oppanakara Street, Coimbatore",
+    "traffic_analysis": {
+        "vehicles_detected": 63,
+        "initial_queue": 18,
+        "traffic_density": "Medium"
+    },
+    "signal_comparison": {
+        "fixed_green_time_seconds": 30,
+        "adaptive_green_time_seconds": 39,
+        "green_time_difference_seconds": 9,
+        "green_time_improvement_percentage": 30.0,
+        "signal_decision": "MAINTAIN NORMAL GREEN PHASE"
+    },
+    "performance_metrics": {
+        "estimated_throughput": 25,
+        "estimated_queue_reduction": 4,
+        "remaining_queue": 14,
+        "queue_reduction_percentage": 22.22
+    },
+    "validation_type": "Prototype estimation based on AI-detected traffic metrics"
+}

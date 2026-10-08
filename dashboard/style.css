@@ -1,0 +1,300 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fa;
+    color: #172033;
+}
+
+.header {
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+
+    padding: 24px 6%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 30px;
+}
+
+.header p {
+    margin-top: 5px;
+    color: #64748b;
+}
+
+.status {
+    background: #ecfdf5;
+    color: #047857;
+
+    padding: 10px 16px;
+    border-radius: 20px;
+
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.dot {
+    display: inline-block;
+
+    width: 8px;
+    height: 8px;
+
+    background: #10b981;
+
+    border-radius: 50%;
+
+    margin-right: 6px;
+}
+
+.container {
+    width: 88%;
+    max-width: 1250px;
+
+    margin: 30px auto;
+}
+
+.case-study {
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+
+    padding: 25px;
+
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+
+    margin-bottom: 25px;
+}
+
+.case-study h2 {
+    margin: 8px 0;
+}
+
+.case-study p {
+    color: #64748b;
+}
+
+.label {
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: #64748b;
+}
+
+.pipeline {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    flex-wrap: wrap;
+
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.pipeline span {
+    background: #f1f5f9;
+    padding: 8px 12px;
+    border-radius: 8px;
+}
+
+.metrics {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 18px;
+
+    margin-bottom: 30px;
+}
+
+.card,
+.validation-card,
+.feedback-card {
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 14px;
+
+    padding: 22px;
+}
+
+.card p,
+.validation-card p,
+.feedback-card p {
+    color: #64748b;
+
+    font-size: 11px;
+    font-weight: bold;
+
+    letter-spacing: 0.8px;
+}
+
+.card h2,
+.validation-card h2,
+.feedback-card h2 {
+    font-size: 30px;
+
+    margin: 12px 0 5px;
+}
+
+.card span,
+.validation-card span,
+.feedback-card span {
+    color: #94a3b8;
+
+    font-size: 12px;
+}
+
+.signal-section,
+.validation-section,
+.feedback-section {
+    margin-top: 30px;
+}
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 15px;
+}
+
+.section-title h2 {
+    font-size: 20px;
+}
+
+.section-title span {
+    font-size: 11px;
+    font-weight: bold;
+    color: #64748b;
+}
+
+.signal-card {
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 14px;
+
+    padding: 30px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 20px;
+}
+
+.signal-icon {
+    font-size: 45px;
+}
+
+.signal-card h2 {
+    margin: 6px 0;
+}
+
+.signal-card p {
+    color: #64748b;
+}
+
+.green-time {
+    margin-left: auto;
+
+    text-align: center;
+}
+
+.green-time span {
+    display: block;
+
+    font-size: 11px;
+    color: #64748b;
+}
+
+.green-time strong {
+    display: block;
+
+    font-size: 34px;
+
+    margin-top: 6px;
+}
+
+.validation-grid,
+.feedback-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 18px;
+}
+
+.feedback-grid {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+footer {
+    margin-top: 50px;
+
+    padding: 25px 0;
+
+    border-top: 1px solid #e5e7eb;
+
+    display: flex;
+    justify-content: space-between;
+
+    color: #94a3b8;
+
+    font-size: 12px;
+}
+
+
+@media (max-width: 900px) {
+
+    .metrics,
+    .validation-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .case-study {
+        flex-direction: column;
+    }
+
+    .signal-card {
+        flex-wrap: wrap;
+    }
+
+    .green-time {
+        margin-left: 0;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .metrics,
+    .validation-grid,
+    .feedback-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    footer {
+        flex-direction: column;
+        gap: 8px;
+    }
+}

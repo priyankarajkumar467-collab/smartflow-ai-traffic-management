@@ -1,0 +1,22 @@
+{
+    "case_study": "Oppanakara Street, Coimbatore",
+    "video": {
+        "fps": 29.99,
+        "total_frames": 1406,
+        "duration_seconds": 46.89
+    },
+    "traffic_analysis": {
+        "frames_processed": 1406,
+        "vehicles_detected": 63,
+        "queue_length": 18,
+        "traffic_density": "Medium"
+    },
+    "adaptive_signal": {
+        "recommended_green_time": 39,
+        "signal_decision": "MAINTAIN NORMAL GREEN PHASE"
+    },
+    "technology": {
+        "detection": "YOLOv8",
+        "tracking": "ByteTrack"
+    }
+}
