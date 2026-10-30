@@ -1,324 +1,384 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>SmartFlow | AI Traffic Management</title>
-
+    <title>SmartFlow | Traffic Management Control Center</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <header class="header">
+<div class="app">
 
-        <div>
-            <h1>SmartFlow</h1>
-            <p>AI-Based Adaptive Traffic Signal Management</p>
-        </div>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
 
-        <div class="status">
-            <span class="dot"></span>
-            AI SYSTEM ACTIVE
-        </div>
-
-    </header>
-
-
-    <main class="container">
-
-        <!-- CASE STUDY -->
-
-        <section class="case-study">
-
+        <div class="brand">
+            <div class="brand-icon">SF</div>
             <div>
-                <span class="label">CASE STUDY</span>
+                <h2>SmartFlow</h2>
+                <span>Traffic Intelligence</span>
+            </div>
+        </div>
 
-                <h2 id="caseStudy">
-                    Oppanakara Street, Coimbatore
-                </h2>
+        <nav class="navigation">
 
-                <p>
-                    Real traffic video analyzed using YOLOv8
-                    and ByteTrack.
-                </p>
+            <button class="nav-item active" data-page="command">
+                <span>⌂</span>
+                Command Center
+            </button>
+
+            <button class="nav-item" data-page="junctions">
+                <span>◉</span>
+                Junctions
+            </button>
+
+            <button class="nav-item" data-page="monitoring">
+                <span>▣</span>
+                Live Monitoring
+            </button>
+
+            <button class="nav-item" data-page="ai">
+                <span>◆</span>
+                AI Analysis
+            </button>
+
+            <button class="nav-item" data-page="analytics">
+                <span>▥</span>
+                Analytics
+            </button>
+
+            <button class="nav-item" data-page="validation">
+                <span>✓</span>
+                Validation
+            </button>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="system-status">
+                <span class="status-dot"></span>
+                <div>
+                    <strong>System Operational</strong>
+                    <small>AI services available</small>
+                </div>
+            </div>
+
+            <div class="sidebar-project">
+                <span>AI-BASED ADAPTIVE</span>
+                <strong>TRAFFIC MANAGEMENT</strong>
+            </div>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+
+            <div class="breadcrumb">
+                <span>SmartFlow</span>
+                <b>/</b>
+                <strong id="page-title">Command Center</strong>
+            </div>
+
+            <div class="topbar-actions">
+                <span class="network-status">
+                    <span class="status-dot"></span>
+                    Network Operational
+                </span>
+
+                <button id="refresh-btn" class="refresh-btn">
+                    ↻ Refresh
+                </button>
+            </div>
+
+        </header>
+
+
+        <!-- ================= COMMAND CENTER ================= -->
+
+        <section id="page-command" class="page active">
+
+            <div class="page-heading">
+                <div>
+                    <span class="eyebrow">TRAFFIC OPERATIONS</span>
+                    <h1>Traffic Management Control Center</h1>
+                    <p>
+                        AI-powered monitoring and adaptive signal management
+                        across the SmartFlow junction network.
+                    </p>
+                </div>
+            </div>
+
+
+            <!-- NETWORK KPI -->
+
+            <div class="kpi-grid">
+
+                <div class="kpi-card">
+                    <div class="kpi-label">Junctions</div>
+                    <div class="kpi-value" id="kpi-junctions">4</div>
+                    <div class="kpi-meta">Configured network</div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-label">Active Analysis</div>
+                    <div class="kpi-value" id="kpi-active">1</div>
+                    <div class="kpi-meta">AI analysis available</div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-label">Vehicles Detected</div>
+                    <div class="kpi-value" id="kpi-vehicles">63</div>
+                    <div class="kpi-meta">Across analyzed junctions</div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-label">Estimated Queue</div>
+                    <div class="kpi-value" id="kpi-queue">18</div>
+                    <div class="kpi-meta">Vehicles currently queued</div>
+                </div>
+
+            </div>
+
+
+            <!-- JUNCTION NETWORK -->
+
+            <div class="section-heading">
+                <div>
+                    <h2>Junction Network</h2>
+                    <p>Select a junction to inspect traffic intelligence.</p>
+                </div>
+            </div>
+
+            <div id="junction-network" class="junction-grid"></div>
+
+
+            <!-- NETWORK SUMMARY -->
+
+            <div class="summary-grid">
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <div>
+                            <h3>Network Summary</h3>
+                            <span>Current AI-derived traffic state</span>
+                        </div>
+                    </div>
+
+                    <div class="summary-list">
+
+                        <div class="summary-row">
+                            <span>Traffic Density</span>
+                            <strong id="summary-density">Medium</strong>
+                        </div>
+
+                        <div class="summary-row">
+                            <span>Average Green Time</span>
+                            <strong id="summary-green">39 sec</strong>
+                        </div>
+
+                        <div class="summary-row">
+                            <span>High Density Junctions</span>
+                            <strong id="summary-high">0</strong>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="panel network-note">
+                    <span class="eyebrow">CASE STUDY</span>
+                    <h3>Oppanakara Street, Coimbatore</h3>
+                    <p>
+                        Primary SmartFlow case study based on recorded traffic
+                        video and YOLOv8 + ByteTrack analysis.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= JUNCTIONS ================= -->
+
+        <section id="page-junctions" class="page">
+
+            <div class="page-heading">
+                <div>
+                    <span class="eyebrow">NETWORK</span>
+                    <h1>Junction Management</h1>
+                    <p>
+                        Monitor the status of all configured SmartFlow junctions.
+                    </p>
+                </div>
+            </div>
+
+            <div id="junction-management" class="junction-grid"></div>
+
+        </section>
+
+
+        <!-- ================= LIVE MONITORING ================= -->
+
+        <section id="page-monitoring" class="page">
+
+            <div class="page-heading">
+                <div>
+                    <span class="eyebrow">MONITORING</span>
+                    <h1>Live Traffic Control Center</h1>
+                    <p>
+                        Four-way intersection visualization, directional
+                        traffic conditions, and AI recommendations.
+                    </p>
+                </div>
+            </div>
+
+            <!-- JavaScript renders the intersection and traffic cards here. -->
+            <div id="monitoring-content"></div>
+
+        </section>
+
+
+        <!-- ================= AI ANALYSIS ================= -->
+
+        <section id="page-ai" class="page">
+
+            <div class="page-heading">
+                <div>
+                    <span class="eyebrow">ARTIFICIAL INTELLIGENCE</span>
+                    <h1>AI Analysis Pipeline</h1>
+                    <p>
+                        Computer vision pipeline used by SmartFlow
+                        for traffic analysis.
+                    </p>
+                </div>
             </div>
 
             <div class="pipeline">
 
-                <span>YOLOv8</span>
-                <span>→</span>
-                <span>ByteTrack</span>
-                <span>→</span>
-                <span>Traffic Analysis</span>
-                <span>→</span>
-                <span>Adaptive Signal</span>
-
-            </div>
-
-        </section>
-
-
-        <!-- KPI CARDS -->
-
-        <section class="metrics">
-
-            <div class="card">
-
-                <p>VEHICLES DETECTED</p>
-
-                <h2 id="vehicles">
-                    --
-                </h2>
-
-                <span>Unique vehicles</span>
-
-            </div>
-
-
-            <div class="card">
-
-                <p>QUEUE LENGTH</p>
-
-                <h2 id="queue">
-                    --
-                </h2>
-
-                <span>Estimated queued vehicles</span>
-
-            </div>
-
-
-            <div class="card">
-
-                <p>TRAFFIC DENSITY</p>
-
-                <h2 id="density">
-                    --
-                </h2>
-
-                <span>Current traffic level</span>
-
-            </div>
-
-
-            <div class="card">
-
-                <p>RECOMMENDED GREEN</p>
-
-                <h2 id="green">
-                    --
-                </h2>
-
-                <span>Adaptive signal timing</span>
-
-            </div>
-
-        </section>
-
-
-        <!-- SIGNAL DECISION -->
-
-        <section class="signal-section">
-
-            <div class="section-title">
-                <h2>Adaptive Signal Decision</h2>
-                <span>AI RECOMMENDATION</span>
-            </div>
-
-
-            <div class="signal-card">
-
-                <div class="signal-icon">
-                    🚦
+                <div class="pipeline-step">
+                    <span>01</span>
+                    <strong>Traffic Video</strong>
+                    <small>Recorded input</small>
                 </div>
 
+                <div class="pipeline-arrow">→</div>
+
+                <div class="pipeline-step">
+                    <span>02</span>
+                    <strong>YOLOv8</strong>
+                    <small>Vehicle detection</small>
+                </div>
+
+                <div class="pipeline-arrow">→</div>
+
+                <div class="pipeline-step">
+                    <span>03</span>
+                    <strong>ByteTrack</strong>
+                    <small>Object tracking</small>
+                </div>
+
+                <div class="pipeline-arrow">→</div>
+
+                <div class="pipeline-step">
+                    <span>04</span>
+                    <strong>Classification</strong>
+                    <small>Vehicle categories</small>
+                </div>
+
+                <div class="pipeline-arrow">→</div>
+
+                <div class="pipeline-step">
+                    <span>05</span>
+                    <strong>Queue Analysis</strong>
+                    <small>Traffic density</small>
+                </div>
+
+                <div class="pipeline-arrow">→</div>
+
+                <div class="pipeline-step">
+                    <span>06</span>
+                    <strong>Signal Decision</strong>
+                    <small>Adaptive green time</small>
+                </div>
+
+            </div>
+
+            <div class="panel ai-note">
+                <span class="eyebrow">IMPLEMENTATION</span>
+                <h3>YOLOv8 + ByteTrack Computer Vision</h3>
+                <p>
+                    SmartFlow processes recorded traffic video using YOLOv8
+                    vehicle detection and ByteTrack multi-object tracking.
+                    The resulting vehicle counts and queue estimates are used
+                    to recommend adaptive signal timing.
+                </p>
+            </div>
+
+        </section>
+
+
+        <!-- ================= ANALYTICS ================= -->
+
+        <section id="page-analytics" class="page">
+
+            <div class="page-heading">
                 <div>
-
-                    <p class="label">
-                        SIGNAL ACTION
+                    <span class="eyebrow">TRAFFIC DATA</span>
+                    <h1>Traffic Analytics</h1>
+                    <p>
+                        Vehicle composition and traffic-density insights.
                     </p>
+                </div>
+            </div>
 
-                    <h2 id="signalDecision">
-                        --
-                    </h2>
+            <div id="analytics-content"></div>
 
-                    <p id="signalReason">
-                        Waiting for analysis...
+        </section>
+
+
+        <!-- ================= VALIDATION ================= -->
+
+        <section id="page-validation" class="page">
+
+            <div class="page-heading">
+                <div>
+                    <span class="eyebrow">VALIDATION</span>
+                    <h1>System Validation</h1>
+                    <p>
+                        Prototype validation metrics and user feedback.
                     </p>
-
                 </div>
-
-
-                <div class="green-time">
-
-                    <span>GREEN TIME</span>
-
-                    <strong id="greenLarge">
-                        -- sec
-                    </strong>
-
-                </div>
-
             </div>
+
+            <div id="validation-content"></div>
 
         </section>
 
 
-        <!-- VALIDATION -->
-
-        <section class="validation-section">
-
-            <div class="section-title">
-
-                <h2>Performance Validation</h2>
-
-                <span>
-                    PROTOTYPE VALIDATION
-                </span>
-
-            </div>
-
-
-            <div class="validation-grid">
-
-                <div class="validation-card">
-
-                    <p>ESTIMATED THROUGHPUT</p>
-
-                    <h2 id="throughput">
-                        --
-                    </h2>
-
-                    <span>vehicles</span>
-
-                </div>
-
-
-                <div class="validation-card">
-
-                    <p>QUEUE REDUCTION</p>
-
-                    <h2 id="queueReduction">
-                        --
-                    </h2>
-
-                    <span>estimated</span>
-
-                </div>
-
-
-                <div class="validation-card">
-
-                    <p>GREEN TIME IMPROVEMENT</p>
-
-                    <h2 id="greenImprovement">
-                        --
-                    </h2>
-
-                    <span>vs fixed signal</span>
-
-                </div>
-
-
-                <div class="validation-card">
-
-                    <p>FIXED GREEN</p>
-
-                    <h2 id="fixedGreen">
-                        --
-                    </h2>
-
-                    <span>seconds</span>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- USER FEEDBACK -->
-
-        <section class="feedback-section">
-
-            <div class="section-title">
-
-                <h2>3-User Qualitative Validation</h2>
-
-                <span>
-                    USER FEEDBACK
-                </span>
-
-            </div>
-
-
-            <div class="feedback-grid">
-
-                <div class="feedback-card">
-
-                    <p>USEFULNESS</p>
-
-                    <h2 id="usefulness">
-                        --
-                    </h2>
-
-                    <span>out of 5</span>
-
-                </div>
-
-
-                <div class="feedback-card">
-
-                    <p>UNDERSTANDING</p>
-
-                    <h2 id="understanding">
-                        --
-                    </h2>
-
-                    <span>out of 5</span>
-
-                </div>
-
-
-                <div class="feedback-card">
-
-                    <p>CONFIDENCE</p>
-
-                    <h2 id="confidence">
-                        --
-                    </h2>
-
-                    <span>out of 5</span>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- FOOTER -->
+        <!-- ================= FOOTER ================= -->
 
         <footer>
+            <div>
+                <strong>SmartFlow</strong>
+                <span>AI-Based Adaptive Traffic Signal Management</span>
+            </div>
 
-            <p>
-                SmartFlow • AI-Based Adaptive Traffic Signal Management
-            </p>
-
-            <p>
-                YOLOv8 • ByteTrack • Adaptive Signal Control
-            </p>
-
+            <span>Prototype • Coimbatore Case Study</span>
         </footer>
 
     </main>
 
+</div>
 
-    <script src="script.js"></script>
+<script src="script.js"></script>
 
 </body>
-
 </html>

@@ -1,0 +1,55 @@
+{
+  "system": {
+    "name": "SmartFlow",
+    "title": "AI-Based Adaptive Traffic Signal Management",
+    "description": "AI-powered traffic monitoring and adaptive signal management for multiple urban intersections.",
+    "city": "Coimbatore",
+    "junction_count": 4
+  },
+
+  "junctions": [
+    {
+      "id": "J01",
+      "name": "Oppanakara Street",
+      "location": "Oppanakara Street, Coimbatore",
+      "status": "analyzed",
+      "primary": true,
+      "analysis_file": "../results/analysis_results.json",
+      "validation_file": "../results/validation_results.json",
+      "video_file": "../data/traffic_video.mp4"
+    },
+
+    {
+      "id": "J02",
+      "name": "Junction 02",
+      "location": "Location pending",
+      "status": "pending",
+      "primary": false,
+      "analysis_file": null,
+      "validation_file": null,
+      "video_file": null
+    },
+
+    {
+      "id": "J03",
+      "name": "Junction 03",
+      "location": "Location pending",
+      "status": "pending",
+      "primary": false,
+      "analysis_file": null,
+      "validation_file": null,
+      "video_file": null
+    },
+
+    {
+      "id": "J04",
+      "name": "Junction 04",
+      "location": "Location pending",
+      "status": "pending",
+      "primary": false,
+      "analysis_file": null,
+      "validation_file": null,
+      "video_file": null
+    }
+  ]
+}

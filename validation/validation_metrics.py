@@ -1,210 +1,381 @@
+"""
+SMARTFLOW - VALIDATION METRICS
+
+Compares adaptive traffic signal timing against
+a fixed 30-second baseline.
+
+Case Study: Oppanakara Street, Coimbatore
+
+Note:
+Throughput and queue reduction are prototype estimates,
+not real-world measured improvements.
+"""
+
 import json
-import os
+from pathlib import Path
 
 
 # ============================================================
-# SMARTFLOW - VALIDATION METRICS
+# FILE PATHS AND CONFIGURATION
 # ============================================================
 
+BASE_DIR = Path(__file__).resolve().parent.parent
 
-INPUT_FILE = "results/analysis_results.json"
-OUTPUT_FILE = "results/validation_results.json"
+INPUT_FILE = BASE_DIR / "results" / "analysis_results.json"
+OUTPUT_FILE = BASE_DIR / "results" / "validation_results.json"
 
-
-# ------------------------------------------------------------
-# 1. LOAD ACTUAL AI ANALYSIS
-# ------------------------------------------------------------
-
-if not os.path.exists(INPUT_FILE):
-
-    print("ERROR: Analysis results not found.")
-    print("Run: py ai/vehicle_detection.py")
-    exit()
+FIXED_GREEN_TIME = 30
 
 
-with open(INPUT_FILE, "r") as file:
-    analysis = json.load(file)
+# ============================================================
+# 1. LOAD AI ANALYSIS
+# ============================================================
+
+def load_analysis():
+
+    if not INPUT_FILE.is_file():
+        raise FileNotFoundError(
+            f"Analysis results not found: {INPUT_FILE}\n"
+            "Run: python -m ai.vehicle_detection"
+        )
+
+    with open(INPUT_FILE, "r", encoding="utf-8") as file:
+        analysis = json.load(file)
+
+    if not isinstance(analysis, dict):
+        raise ValueError("Analysis JSON must contain an object.")
+
+    return analysis
 
 
-# ------------------------------------------------------------
-# 2. EXTRACT RESULTS
-# ------------------------------------------------------------
+# ============================================================
+# 2. EXTRACT AND VALIDATE INPUT DATA
+# ============================================================
 
-vehicle_count = analysis["traffic_analysis"]["vehicles_detected"]
+def extract_analysis_data(analysis):
 
-queue_length = analysis["traffic_analysis"]["queue_length"]
+    try:
+        traffic = analysis["analysis"]
+        signal = analysis["adaptive_signal"]
 
-density = analysis["traffic_analysis"]["traffic_density"]
+        vehicle_count = traffic["unique_vehicles"]
+        queue_length = traffic["estimated_queue"]
+        density = traffic["traffic_density"]
 
-green_time = analysis["adaptive_signal"]["recommended_green_time"]
+        green_time = signal["recommended_green_time_seconds"]
+        signal_action = signal["signal_decision"]
 
-signal_action = analysis["adaptive_signal"]["signal_decision"]
+    except (KeyError, TypeError) as error:
+        raise ValueError(
+            f"Required analysis data is missing: {error}"
+        ) from error
 
+    if (
+        not isinstance(vehicle_count, int)
+        or isinstance(vehicle_count, bool)
+        or vehicle_count < 0
+    ):
+        raise ValueError("Invalid vehicle count.")
 
-# ------------------------------------------------------------
-# 3. FIXED SIGNAL BASELINE
-# ------------------------------------------------------------
+    if (
+        not isinstance(queue_length, int)
+        or isinstance(queue_length, bool)
+        or queue_length < 0
+        or queue_length > vehicle_count
+    ):
+        raise ValueError("Invalid queue length.")
 
-fixed_green_time = 30
+    if density not in ("Low", "Medium", "High"):
+        raise ValueError("Invalid traffic density.")
 
+    if (
+        not isinstance(green_time, (int, float))
+        or isinstance(green_time, bool)
+        or green_time <= 0
+    ):
+        raise ValueError("Invalid adaptive green time.")
 
-# ------------------------------------------------------------
-# 4. ESTIMATED THROUGHPUT
-# ------------------------------------------------------------
+    if not isinstance(signal_action, str) or not signal_action:
+        raise ValueError("Invalid signal decision.")
 
-estimated_throughput = round(
-    vehicle_count * (green_time / 60) * 0.60
-)
-
-
-# ------------------------------------------------------------
-# 5. ESTIMATED QUEUE REDUCTION
-# ------------------------------------------------------------
-
-if density == "High":
-    reduction_factor = 0.30
-
-elif density == "Medium":
-    reduction_factor = 0.20
-
-else:
-    reduction_factor = 0.10
-
-
-initial_queue = queue_length
-
-estimated_queue_reduction = round(
-    initial_queue * reduction_factor
-)
-
-remaining_queue = max(
-    0,
-    initial_queue - estimated_queue_reduction
-)
+    return (
+        vehicle_count,
+        queue_length,
+        density,
+        green_time,
+        signal_action
+    )
 
 
-# ------------------------------------------------------------
-# 6. QUEUE REDUCTION PERCENTAGE
-# ------------------------------------------------------------
+# ============================================================
+# 3. CALCULATE VALIDATION METRICS
+# ============================================================
 
-if initial_queue > 0:
+def calculate_validation_metrics(
+    vehicle_count,
+    queue_length,
+    density,
+    green_time
+):
 
-    queue_reduction_percentage = round(
-        (estimated_queue_reduction / initial_queue) * 100,
+    # Estimated throughput
+    estimated_throughput = round(
+        vehicle_count * (green_time / 60) * 0.60
+    )
+
+    # Queue reduction factor
+    if density == "High":
+        reduction_factor = 0.30
+
+    elif density == "Medium":
+        reduction_factor = 0.20
+
+    else:
+        reduction_factor = 0.10
+
+    # Estimated queue reduction
+    estimated_queue_reduction = round(
+        queue_length * reduction_factor
+    )
+
+    remaining_queue = max(
+        0,
+        queue_length - estimated_queue_reduction
+    )
+
+    # Queue reduction percentage
+    if queue_length > 0:
+
+        queue_reduction_percentage = round(
+            (estimated_queue_reduction / queue_length) * 100,
+            2
+        )
+
+    else:
+        queue_reduction_percentage = 0
+
+    # Green-time comparison
+    green_time_difference = green_time - FIXED_GREEN_TIME
+
+    green_time_improvement = round(
+        (green_time_difference / FIXED_GREEN_TIME) * 100,
         2
     )
 
-else:
-
-    queue_reduction_percentage = 0
-
-
-# ------------------------------------------------------------
-# 7. GREEN-TIME IMPROVEMENT
-# ------------------------------------------------------------
-
-green_time_difference = green_time - fixed_green_time
-
-green_time_improvement = round(
-    (green_time_difference / fixed_green_time) * 100,
-    2
-)
-
-
-# ------------------------------------------------------------
-# 8. CREATE VALIDATION RESULT
-# ------------------------------------------------------------
-
-validation_results = {
-
-    "case_study": "Oppanakara Street, Coimbatore",
-
-    "traffic_analysis": {
-        "vehicles_detected": vehicle_count,
-        "initial_queue": initial_queue,
-        "traffic_density": density
-    },
-
-    "signal_comparison": {
-        "fixed_green_time_seconds": fixed_green_time,
-        "adaptive_green_time_seconds": green_time,
-        "green_time_difference_seconds": green_time_difference,
-        "green_time_improvement_percentage": green_time_improvement,
-        "signal_decision": signal_action
-    },
-
-    "performance_metrics": {
+    return {
         "estimated_throughput": estimated_throughput,
         "estimated_queue_reduction": estimated_queue_reduction,
         "remaining_queue": remaining_queue,
-        "queue_reduction_percentage": queue_reduction_percentage
-    },
-
-    "validation_type": "Prototype estimation based on AI-detected traffic metrics"
-}
-
-
-# ------------------------------------------------------------
-# 9. DISPLAY VALIDATION RESULTS
-# ------------------------------------------------------------
-
-print("\n========================================")
-print("SMARTFLOW VALIDATION RESULTS")
-print("========================================")
-
-print(f"Vehicles Detected       : {vehicle_count}")
-print(f"Initial Queue           : {initial_queue}")
-print(f"Traffic Density         : {density}")
-
-print("\n--- SIGNAL COMPARISON ---")
-
-print(f"Fixed Green Time        : {fixed_green_time} sec")
-print(f"Adaptive Green Time     : {green_time} sec")
-
-print("\n--- PERFORMANCE METRICS ---")
-
-print(f"Estimated Throughput    : {estimated_throughput} vehicles")
-
-print(
-    f"Estimated Queue Reduction: "
-    f"{estimated_queue_reduction} vehicles"
-)
-
-print(f"Remaining Queue         : {remaining_queue} vehicles")
-
-print(
-    f"Queue Reduction         : "
-    f"{queue_reduction_percentage}%"
-)
-
-print(
-    f"Green Time Difference   : "
-    f"{green_time_difference} sec"
-)
-
-print(
-    f"Green Time Improvement  : "
-    f"{green_time_improvement}%"
-)
+        "queue_reduction_percentage": queue_reduction_percentage,
+        "green_time_difference_seconds": green_time_difference,
+        "green_time_improvement_percentage": green_time_improvement
+    }
 
 
-# ------------------------------------------------------------
-# 10. SAVE VALIDATION RESULTS
-# ------------------------------------------------------------
+# ============================================================
+# 4. CREATE VALIDATION JSON
+# ============================================================
 
-os.makedirs("results", exist_ok=True)
+def create_validation_result(
+    vehicle_count,
+    queue_length,
+    density,
+    green_time,
+    signal_action,
+    metrics
+):
 
-with open(OUTPUT_FILE, "w") as file:
+    return {
 
-    json.dump(
-        validation_results,
-        file,
-        indent=4
+        "case_study": "Oppanakara Street, Coimbatore",
+
+        "traffic_analysis": {
+
+            "vehicles_detected": vehicle_count,
+            "initial_queue": queue_length,
+            "traffic_density": density
+        },
+
+        "signal_comparison": {
+
+            "fixed_green_time_seconds": FIXED_GREEN_TIME,
+
+            "adaptive_green_time_seconds": green_time,
+
+            "green_time_difference_seconds":
+                metrics["green_time_difference_seconds"],
+
+            "green_time_improvement_percentage":
+                metrics["green_time_improvement_percentage"],
+
+            "signal_decision": signal_action
+        },
+
+        "performance_metrics": {
+
+            "estimated_throughput":
+                metrics["estimated_throughput"],
+
+            "estimated_queue_reduction":
+                metrics["estimated_queue_reduction"],
+
+            "remaining_queue":
+                metrics["remaining_queue"],
+
+            "queue_reduction_percentage":
+                metrics["queue_reduction_percentage"]
+        },
+
+        "validation_type":
+            "Prototype estimation based on AI-detected traffic metrics"
+    }
+
+
+# ============================================================
+# 5. DISPLAY RESULTS
+# ============================================================
+
+def display_results(
+    vehicle_count,
+    queue_length,
+    density,
+    green_time,
+    metrics
+):
+
+    print("\n" + "=" * 45)
+    print("SMARTFLOW VALIDATION RESULTS")
+    print("=" * 45)
+
+    print(f"Vehicles Detected        : {vehicle_count}")
+    print(f"Initial Queue            : {queue_length}")
+    print(f"Traffic Density          : {density}")
+
+    print("\n--- SIGNAL COMPARISON ---")
+
+    print(f"Fixed Green Time         : {FIXED_GREEN_TIME} sec")
+    print(f"Adaptive Green Time      : {green_time} sec")
+
+    print("\n--- PERFORMANCE METRICS ---")
+
+    print(
+        f"Estimated Throughput     : "
+        f"{metrics['estimated_throughput']} vehicles"
+    )
+
+    print(
+        f"Estimated Queue Reduction: "
+        f"{metrics['estimated_queue_reduction']} vehicles"
+    )
+
+    print(
+        f"Remaining Queue          : "
+        f"{metrics['remaining_queue']} vehicles"
+    )
+
+    print(
+        f"Queue Reduction          : "
+        f"{metrics['queue_reduction_percentage']}%"
+    )
+
+    print(
+        f"Green Time Difference    : "
+        f"{metrics['green_time_difference_seconds']} sec"
+    )
+
+    print(
+        f"Green Time Improvement   : "
+        f"{metrics['green_time_improvement_percentage']}%"
     )
 
 
-print("\n========================================")
-print("VALIDATION COMPLETED")
-print("========================================")
+# ============================================================
+# 6. SAVE RESULTS
+# ============================================================
 
-print(f"Results saved to: {OUTPUT_FILE}")
+def save_results(validation_results):
+
+    OUTPUT_FILE.parent.mkdir(
+        parents=True,
+        exist_ok=True
+    )
+
+    with open(
+        OUTPUT_FILE,
+        "w",
+        encoding="utf-8"
+    ) as file:
+
+        json.dump(
+            validation_results,
+            file,
+            indent=4
+        )
+
+
+# ============================================================
+# 7. MAIN PROGRAM
+# ============================================================
+
+def main():
+
+    try:
+
+        analysis = load_analysis()
+
+        (
+            vehicle_count,
+            queue_length,
+            density,
+            green_time,
+            signal_action
+        ) = extract_analysis_data(analysis)
+
+        metrics = calculate_validation_metrics(
+            vehicle_count,
+            queue_length,
+            density,
+            green_time
+        )
+
+        validation_results = create_validation_result(
+            vehicle_count,
+            queue_length,
+            density,
+            green_time,
+            signal_action,
+            metrics
+        )
+
+        display_results(
+            vehicle_count,
+            queue_length,
+            density,
+            green_time,
+            metrics
+        )
+
+        save_results(validation_results)
+
+        print("\n" + "=" * 45)
+        print("VALIDATION COMPLETED")
+        print("=" * 45)
+
+        print(f"Results saved to: {OUTPUT_FILE}")
+
+    except (
+        FileNotFoundError,
+        json.JSONDecodeError,
+        ValueError,
+        OSError
+    ) as error:
+
+        print(f"\nVALIDATION ERROR: {error}")
+
+
+# ============================================================
+# PROGRAM ENTRY POINT
+# ============================================================
+
+if __name__ == "__main__":
+    main()

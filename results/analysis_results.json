@@ -1,22 +1,52 @@
 {
-    "case_study": "Oppanakara Street, Coimbatore",
-    "video": {
-        "fps": 29.99,
-        "total_frames": 1406,
-        "duration_seconds": 46.89
+    "project": {
+        "name": "SmartFlow",
+        "title": "AI-Based Adaptive Traffic Signal Management",
+        "case_study": "Oppanakara Street, Coimbatore"
     },
-    "traffic_analysis": {
+    "analysis": {
+        "video_fps": 29.99,
+        "total_frames": 1406,
+        "video_duration_seconds": 46.89,
         "frames_processed": 1406,
-        "vehicles_detected": 63,
-        "queue_length": 18,
+        "unique_vehicles": 63,
+        "estimated_queue": 18,
+        "queue_ratio_percent": 28.57,
         "traffic_density": "Medium"
     },
-    "adaptive_signal": {
-        "recommended_green_time": 39,
-        "signal_decision": "MAINTAIN NORMAL GREEN PHASE"
+    "vehicle_classification": {
+        "car": 50,
+        "motorcycle": 6,
+        "bus": 1,
+        "truck": 6,
+        "normal_vehicles": 56,
+        "heavy_vehicles": 7,
+        "heavy_vehicle_percentage": 11.11
     },
-    "technology": {
-        "detection": "YOLOv8",
-        "tracking": "ByteTrack"
-    }
+    "adaptive_signal": {
+        "recommended_green_time_seconds": 39,
+        "signal_decision": "MAINTAIN NORMAL GREEN PHASE",
+        "decision_reason": "Medium traffic with 18 estimated queued vehicles. Normal green timing is recommended."
+    },
+    "ai_pipeline": {
+        "vehicle_detection": "YOLOv8",
+        "multi_object_tracking": "ByteTrack",
+        "vehicle_counting": "Completed",
+        "vehicle_classification": "Completed",
+        "queue_estimation": "Completed",
+        "traffic_density": "Completed",
+        "adaptive_green_time": "Completed",
+        "signal_decision": "Completed"
+    },
+    "vehicle_categories": {
+        "normal": [
+            "car",
+            "motorcycle"
+        ],
+        "heavy": [
+            "bus",
+            "truck"
+        ]
+    },
+    "validation_note": "Traffic improvement metrics are prototype estimates and are not field-measured results."
 }
